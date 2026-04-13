@@ -1,0 +1,7 @@
+config BOARD
+    default "zedboard-noelv" if BOARD_ZEDBOARD_NOELV
+
+config BOARD_ZEDBOARD_NOELV
+    bool
+    default y
+    select CPU_CORE_RV64IMAC
