@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2020 Koen Zandberg <koen@bergzand.net>
+ * SPDX-FileCopyrightText: 2026 Matvii Ivashchenko
  * SPDX-License-Identifier: LGPL-2.1-only
  */
 

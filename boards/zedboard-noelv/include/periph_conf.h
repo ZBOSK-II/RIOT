@@ -62,6 +62,35 @@ static const uart_conf_t uart_config[] = {
 #define UART_NUMOF          ARRAY_SIZE(uart_config)
 /** @} */
 
+/**
+ * @name    GRETH Ethernet configuration
+ *
+ * grmon: greth0  APB: ff984000 - ff984100  IRQ: 5
+ * @{
+ */
+#define GRETH_PARAM_BASE    (0xff984000UL)
+#define GRETH_PARAM_IRQ     (5U)
+/** @} */
+
+/**
+ * @name    Cadence GEM0 Ethernet configuration
+ *
+ * PS GEM0 registers are at 0xE000_B000 in Zynq PS address space.
+ * VHDL in noelvmp.vhd translates NOEL-V address 0x6000_B000 →
+ * PS address 0xE000_B000 via the S_AXI_GP0 path.
+ *
+ * DMA address translation: PS_DDR = (NOELV_PHYS & 0x0FFFFFFF) | 0x10000000
+ * (NOEL-V RAM at 0x00800000 maps to PS DDR at 0x10800000)
+ * @{
+ */
+#define GEM_PARAM_BASE      (0x6000B000UL)
+#define GEM_PARAM_IRQ       (0U)            /* Phase 1: polling thread, no HW IRQ */
+
+/** Translate NOEL-V physical address to PS DDR physical address for GEM DMA. */
+#define GEM_TO_PS_PHYS(a)   ((uint32_t)(((uint32_t)(uintptr_t)(a) & 0x0FFFFFFFu) \
+                              | 0x10000000u))
+/** @} */
+
 #ifdef __cplusplus
 }
 #endif

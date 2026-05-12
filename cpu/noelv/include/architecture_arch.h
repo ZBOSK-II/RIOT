@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2020 Otto-von-Guericke-Universität Magdeburg
+ * SPDX-FileCopyrightText: 2026 Matvii Ivashchenko
  * SPDX-License-Identifier: LGPL-2.1-only
  */
 

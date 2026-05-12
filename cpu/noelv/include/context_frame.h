@@ -1,5 +1,6 @@
-    /*
+/*
  * SPDX-FileCopyrightText: 2017, 2019 JP Bonn, Ken Rabold
+ * SPDX-FileCopyrightText: 2026 Matvii Ivashchenko
  * SPDX-License-Identifier: LGPL-2.1-only
  */
 

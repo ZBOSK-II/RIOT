@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2017, 2019 Ken Rabold, JP Bonn
+ * SPDX-FileCopyrightText: 2026 Matvii Ivashchenko
  * SPDX-License-Identifier: LGPL-2.1-only
  */
 
@@ -94,7 +95,7 @@ __attribute((used)) static void handle_trap(uword_t mcause)
     bool is_interrupt = (mcause & MCAUSE_INT) == MCAUSE_INT;
 
 #ifdef DEVELHELP
-    if (trap != CAUSE_MACHINE_ECALL && trap != CAUSE_USER_ECALL) {
+    if (!is_interrupt && trap != CAUSE_MACHINE_ECALL && trap != CAUSE_USER_ECALL) {
         printf("Trap: mcause=0x%" PRIxPTR " mepc=0x%" PRIxPTR " mtval=0x%" PRIxPTR "\r\n",
                (uintptr_t)mcause, (uintptr_t)read_csr(mepc), (uintptr_t)read_csr(mtval));
 

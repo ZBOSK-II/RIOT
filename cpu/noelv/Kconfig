@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2020 Inria
+# SPDX-FileCopyrightText: 2026 Matvii Ivashchenko
 # SPDX-License-Identifier: LGPL-2.1-only
 
 config CPU_ARCH_RISCV

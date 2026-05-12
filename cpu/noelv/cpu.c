@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 NoeIV port authors
+ * SPDX-FileCopyrightText: 2026 Matvii Ivashchenko
  * SPDX-License-Identifier: LGPL-2.1-only
  */
 
