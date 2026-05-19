@@ -54,9 +54,9 @@ extern "C" {
 
 /**
  * @brief   MTIME clock frequency of the ACLINT
- *          
+ *
  */
-#define RTC_FREQ                (1000000UL)
+#define RTC_FREQ                (41750000UL)
 
 #ifdef __cplusplus
 }

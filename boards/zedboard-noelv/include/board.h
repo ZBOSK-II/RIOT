@@ -32,7 +32,8 @@ extern "C" {
  * UART scaler=276 → 85MHz/(277*8)=38373 baud (matches grmon output).
  * @{
  */
-#define CLOCK_CORECLOCK     (85000000UL)    /* 85 MHz */
+#define CLOCK_CORECLOCK     (83500000UL)    /* 83.5 MHz */
+#define CONFIG_ZTIMER_USEC_BASE_FREQ    (41750000UL)
 /** @} */
 
 /**
