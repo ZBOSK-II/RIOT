@@ -1,4 +1,0 @@
-USEMODULE += eui_provider
-USEMODULE += netdev_eth
-USEMODULE += iolist
-USEMODULE += ztimer_msec
