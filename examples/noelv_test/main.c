@@ -6,6 +6,8 @@
 /**
  * @brief   NoeIV port test: GPIO (LEDs + buttons) and UART
  *
+ * @author  Matvii Ivashchenko
+ *
  * Tests:
  *  1. UART  — print messages
  *  2. GPIO output — blink all 8 LEDs in sequence (Knight Rider effect)
@@ -16,10 +18,11 @@
 #include "board.h"
 #include "clk.h"
 #include "periph/gpio.h"
+#include "ztimer.h"
 
 static void delay_ms(uint32_t ms)
 {
-    uint32_t loops = (coreclk() / 20) / 1000 * ms;
+    uint32_t loops = (coreclk() / 4) / 1000 * ms;
     for (volatile uint32_t i = 0; i < loops; i++) {}
 }
 
@@ -67,10 +70,10 @@ int main(void)
     knight_rider(10);
     puts("  done");
 
-    puts("[TEST 3] GPIO input: press BTND/BTNL/BTNR (10 seconds)");
-    puts("  BTN1=BTND -> LD0,  BTN2=BTNL -> LD1,  BTN3=BTNR -> LD2");
+    puts("[TEST 3] GPIO input: press buttons/switches (10 seconds)");
+    puts("  BTN1=BTND->LD0  BTN2=BTNL->LD1  BTN3=BTNR->LD2  SW0->LD3  SW1->LD4  SW2->LD5  SW3->LD6");
 
-    for (int i = 0; i < 2000; i++) {           
+    for (int i = 0; i < 200; i++) {
         bool b1 = gpio_read(BTN1_PIN);
         bool b2 = gpio_read(BTN2_PIN);
         bool b3 = gpio_read(BTN3_PIN);
@@ -92,6 +95,16 @@ int main(void)
 
     led_only(-1);
     puts("  done");
+
+    puts("[TEST 4] Clock frequency: LED0 blinks 30x at 1 Hz (measure 30 s)");
+    printf("  CLOCK_CORECLOCK = %lu Hz\r\n", (unsigned long)coreclk());
+    for (int i = 0; i < 30; i++) {
+        gpio_set(LED0_PIN);
+        ztimer_sleep(ZTIMER_MSEC, 500);
+        gpio_clear(LED0_PIN);
+        ztimer_sleep(ZTIMER_MSEC, 500);
+    }
+    puts("  done — 30 blinks should take exactly 30 s");
 
     puts("\r\n=== All tests complete ===");
     return 0;

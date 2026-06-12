@@ -6,7 +6,6 @@ RIOTBASE ?= $(CURDIR)/../..
 DEVELHELP ?= 1
 QUIET ?= 1
 
-# Use ztimer for delays if timer is available
-FEATURES_OPTIONAL += periph_timer
+USEMODULE += ztimer_msec
 
 include $(RIOTBASE)/Makefile.include
