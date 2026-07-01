@@ -28,12 +28,10 @@ extern "C" {
  * @name    System clock frequency
  *
  * CPU_FREQ = BOARD_FREQ(100MHz) * CFG_CLKMUL / CFG_CLKDIV.
- * Derived from VHDL: GPTimer scaler=84 → 85MHz/85=1MHz ticks,
- * UART scaler=276 → 85MHz/(277*8)=38373 baud (matches grmon output).
  * @{
  */
-#define CLOCK_CORECLOCK     (83500000UL)    /* 83.5 MHz */
-#define CONFIG_ZTIMER_USEC_BASE_FREQ    (41750000UL)
+#define CLOCK_CORECLOCK     (40000000UL)    /* 40 MHz */
+#define CONFIG_ZTIMER_USEC_BASE_FREQ    (20000000UL)
 /** @} */
 
 /**
