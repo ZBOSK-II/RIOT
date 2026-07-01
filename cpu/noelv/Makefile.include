@@ -1,6 +1,7 @@
 CFLAGS += -Wno-pedantic
 # coretimer.c provides its own timer_set — suppress the generic wrapper
 CFLAGS += -DPERIPH_TIMER_PROVIDES_SET
+CFLAGS += -DSSIZE_MAX=__LONG_MAX__
 INCLUDES += -I$(RIOTCPU)/riscv_common/include
 
 TOOLCHAINS_SUPPORTED = gnu llvm
