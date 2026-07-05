@@ -55,8 +55,10 @@ extern "C" {
 /**
  * @brief   MTIME clock frequency of the ACLINT
  *
+ * GRLIB ACLINT runs mtime at CLOCK_CORECLOCK / 2.
+ * Must match CONFIG_ZTIMER_USEC_BASE_FREQ in board.h.
  */
-#define RTC_FREQ                (41750000UL)
+#define RTC_FREQ                (20000000UL)
 
 #ifdef __cplusplus
 }

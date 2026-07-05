@@ -36,7 +36,7 @@
 #include "greth.h"
 #include "greth_regs.h"
 
-#define ENABLE_DEBUG    1
+#define ENABLE_DEBUG    0
 #include "debug.h"
 
 /* GRLIB requirement: descriptor table base must be aligned to at least the
@@ -363,7 +363,7 @@ static void _greth_isr(int irq)
     _mmio_write(&regs->status, status);
     _greth_pending_status |= status;
 
-    printf("[greth] ISR: status=0x%08" PRIx32 "\n", status);
+    DEBUG("[greth] ISR: status=0x%08" PRIx32 "\n", status);
 
     dev->netdev.event_callback(&dev->netdev, NETDEV_EVENT_ISR);
 }
@@ -484,7 +484,7 @@ static int _send(netdev_t *netdev, const iolist_t *iolist)
 
     _cbo_inval((void *)desc);
     uint32_t verify_ctrl = _mmio_read(&desc->ctrl);
-    printf("[greth] TX[%u] S1-FLUSH: armed=0x%08" PRIx32 " dram=0x%08" PRIx32
+    DEBUG("[greth] TX[%u] S1-FLUSH: armed=0x%08" PRIx32 " dram=0x%08" PRIx32
            " buf=0x%08" PRIx32 " hw_tdesc=0x%08" PRIx32 "\n",
            idx, ctrl, verify_ctrl,
            (uint32_t)(uintptr_t)dev->tx_buf, _mmio_read(&regs->tx_desc));
@@ -495,7 +495,7 @@ static int _send(netdev_t *netdev, const iolist_t *iolist)
                                       GRETH_CTRL_RXEN | GRETH_CTRL_RXIRQEN |
                                       GRETH_CTRL_TXIRQEN | GRETH_CTRL_TXEN);
     _mmio_write(&regs->ctrl, clean_ctrl & ~GRETH_CTRL_TXEN);
-    printf("[greth] TX[%u] S2-TXEN0: ctrl=0x%08" PRIx32 " status=0x%08" PRIx32
+    DEBUG("[greth] TX[%u] S2-TXEN0: ctrl=0x%08" PRIx32 " status=0x%08" PRIx32
            " (clean=0x%08" PRIx32 ")\n",
            idx, _mmio_read(&regs->ctrl), _mmio_read(&regs->status), clean_ctrl);
 
@@ -503,7 +503,7 @@ static int _send(netdev_t *netdev, const iolist_t *iolist)
     {
         volatile uint32_t *ahbstat = (volatile uint32_t *)0xff982000u;
         volatile uint32_t *ahbaddr = (volatile uint32_t *)0xff982004u;
-        printf("[greth] TX[%u] S3-TXEN1: ctrl=0x%08" PRIx32 " status=0x%08" PRIx32
+        DEBUG("[greth] TX[%u] S3-TXEN1: ctrl=0x%08" PRIx32 " status=0x%08" PRIx32
                " ahbstat=0x%08" PRIx32 " ahbaddr=0x%08" PRIx32 "\n",
                idx, _mmio_read(&regs->ctrl), _mmio_read(&regs->status),
                *ahbstat, *ahbaddr);
@@ -511,7 +511,7 @@ static int _send(netdev_t *netdev, const iolist_t *iolist)
 
     _cbo_inval((void *)desc);
     __asm__ volatile("fence ir, ir" ::: "memory");
-    printf("[greth] TX[%u] S4-IMM:   desc=0x%08" PRIx32 "\n",
+    DEBUG("[greth] TX[%u] S4-IMM:   desc=0x%08" PRIx32 "\n",
            idx, _mmio_read(&desc->ctrl));
 
     /* Wait for TX completion via two independent signals:
@@ -534,7 +534,7 @@ static int _send(netdev_t *netdev, const iolist_t *iolist)
             _greth_pending_status |= hw_s & (GRETH_STATUS_RXIRQ |
                                              GRETH_STATUS_RXERR);
             _greth_pending_status &= ~(GRETH_STATUS_TXIRQ | GRETH_STATUS_TXERR);
-            printf("[greth] TX[%u] STATUS-EXIT[%u]: hw_s=0x%08" PRIx32
+            DEBUG("[greth] TX[%u] STATUS-EXIT[%u]: hw_s=0x%08" PRIx32
                    " pending=0x%08" PRIx32 "\n",
                    idx, tx_wait, hw_s, _greth_pending_status);
             status_exit = true;
@@ -543,7 +543,7 @@ static int _send(netdev_t *netdev, const iolist_t *iolist)
 
         uint32_t c = _mmio_read(&regs->ctrl);
         if (!(c & GRETH_CTRL_TXEN)) {
-            printf("[greth] TX[%u] TXEN-CLEARED[%u]: ctrl=0x%08" PRIx32
+            DEBUG("[greth] TX[%u] TXEN-CLEARED[%u]: ctrl=0x%08" PRIx32
                    " hw_tdesc=0x%08" PRIx32 "\n",
                    idx, tx_wait, c, _mmio_read(&regs->tx_desc));
             txen_cleared = true;
@@ -558,7 +558,7 @@ static int _send(netdev_t *netdev, const iolist_t *iolist)
         }
 
         if (_si < 6 && tx_wait == _samples[_si]) {
-            printf("[greth] TX[%u] S5-POLL[%u]: desc=0x%08" PRIx32
+            DEBUG("[greth] TX[%u] S5-POLL[%u]: desc=0x%08" PRIx32
                    " ctrl=0x%08" PRIx32 " status=0x%08" PRIx32 "\n",
                    idx, tx_wait, d,
                    _mmio_read(&regs->ctrl), _mmio_read(&regs->status));
@@ -573,7 +573,7 @@ static int _send(netdev_t *netdev, const iolist_t *iolist)
         volatile uint32_t *ahbaddr = (volatile uint32_t *)0xff982004u;
         uint32_t ahbs = *ahbstat;
         uint32_t ahba = *ahbaddr;
-        printf("[greth] TX[%u] DONE: wait=%u via=%s desc=0x%08" PRIx32
+        DEBUG("[greth] TX[%u] DONE: wait=%u via=%s desc=0x%08" PRIx32
                " ctrl=0x%08" PRIx32 " status=0x%08" PRIx32
                " ahbstat=0x%08" PRIx32 " ahbaddr=0x%08" PRIx32 "\n",
                idx, tx_wait, status_exit ? "STATUS" : "DESC",
@@ -609,7 +609,7 @@ static int _send(netdev_t *netdev, const iolist_t *iolist)
      * A double-post of NETDEV_EVENT_ISR is harmless — _isr() with pending=0
      * is a no-op. */
     if (_greth_pending_status & (GRETH_STATUS_RXIRQ | GRETH_STATUS_RXERR)) {
-        printf("[greth] TX[%u] DONE: flushing pending RX (pending=0x%08" PRIx32 ")\n",
+        DEBUG("[greth] TX[%u] DONE: flushing pending RX (pending=0x%08" PRIx32 ")\n",
                idx, _greth_pending_status);
         if (dev->netdev.event_callback) {
             dev->netdev.event_callback(&dev->netdev, NETDEV_EVENT_ISR);
@@ -631,7 +631,7 @@ static int _recv(netdev_t *netdev, void *buf, size_t len, void *info)
     _cbo_inval((void *)desc);
     uint32_t ctrl = _mmio_read(&desc->ctrl);
 
-    printf("[greth] _recv: idx=%u ctrl=0x%08" PRIx32 "\n", idx, ctrl);
+    DEBUG("[greth] _recv: idx=%u ctrl=0x%08" PRIx32 "\n", idx, ctrl);
 
     if (ctrl & GRETH_BD_EN) {
         return 0;
@@ -696,10 +696,10 @@ static void _isr(netdev_t *netdev)
     uint32_t status = _greth_pending_status;
     _greth_pending_status = 0;
 
-    printf("[greth] _isr: pending=0x%08" PRIx32 "\n", status);
+    DEBUG("[greth] _isr: pending=0x%08" PRIx32 "\n", status);
 
     if (status & GRETH_STATUS_RXIRQ) {
-        printf("[greth] _isr: RX_COMPLETE!\n");
+        DEBUG("[greth] _isr: RX_COMPLETE!\n");
         netdev->event_callback(netdev, NETDEV_EVENT_RX_COMPLETE);
     }
     if (status & (GRETH_STATUS_RXERR | GRETH_STATUS_TXERR)) {
