@@ -15,6 +15,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include "board.h"
 #include "clk.h"
 #include "periph/gpio.h"
@@ -22,8 +23,7 @@
 
 static void delay_ms(uint32_t ms)
 {
-    uint32_t loops = (coreclk() / 4) / 1000 * ms;
-    for (volatile uint32_t i = 0; i < loops; i++) {}
+    ztimer_sleep(ZTIMER_MSEC, ms);
 }
 
 static const gpio_t leds[] = {
@@ -58,6 +58,51 @@ static void knight_rider(int n_rounds)
     }
     led_only(-1); /* all off */
 }
+static const gpio_t sw_pins[]  = { SW0_PIN, SW1_PIN, SW2_PIN };
+static const gpio_t sw_leds[]  = { LED0_PIN, LED1_PIN, LED2_PIN };
+#define SW_NUMOF   (sizeof(sw_pins) / sizeof(sw_pins[0]))
+
+static const gpio_t btn_pins[] = { BTN1_PIN, BTN2_PIN, BTN3_PIN };
+static const gpio_t btn_leds[] = { LED5_PIN, LED6_PIN, LED7_PIN };
+#define BTN_NUMOF  (sizeof(btn_pins) / sizeof(btn_pins[0]))
+
+static void interactive_mode(void)
+{
+    bool btn_prev[BTN_NUMOF]  = { false };
+    bool led_state[BTN_NUMOF] = { false };
+
+    led_only(-1);
+    for (unsigned i = 0; i < BTN_NUMOF; i++) {
+        gpio_clear(btn_leds[i]);
+    }
+
+    while (1) {
+        for (unsigned i = 0; i < SW_NUMOF; i++) {
+            if (gpio_read(sw_pins[i])) {
+                gpio_set(sw_leds[i]);
+            }
+            else {
+                gpio_clear(sw_leds[i]);
+            }
+        }
+
+        for (unsigned i = 0; i < BTN_NUMOF; i++) {
+            bool now = gpio_read(btn_pins[i]);
+            if (now && !btn_prev[i]) {
+                led_state[i] = !led_state[i];
+                if (led_state[i]) {
+                    gpio_set(btn_leds[i]);
+                }
+                else {
+                    gpio_clear(btn_leds[i]);
+                }
+            }
+            btn_prev[i] = now;
+        }
+
+        ztimer_sleep(ZTIMER_MSEC, 30);
+    }
+}
 
 int main(void)
 {
@@ -70,33 +115,7 @@ int main(void)
     knight_rider(10);
     puts("  done");
 
-    puts("[TEST 3] GPIO input: press buttons/switches (10 seconds)");
-    puts("  BTN1=BTND->LD0  BTN2=BTNL->LD1  BTN3=BTNR->LD2  SW0->LD3  SW1->LD4  SW2->LD5  SW3->LD6");
-
-    for (int i = 0; i < 200; i++) {
-        bool b1 = gpio_read(BTN1_PIN);
-        bool b2 = gpio_read(BTN2_PIN);
-        bool b3 = gpio_read(BTN3_PIN);
-        bool b4 = gpio_read(BTN4_PIN);
-        bool b5 = gpio_read(BTN5_PIN);
-        bool b6 = gpio_read(BTN6_PIN);
-        bool b7 = gpio_read(BTN7_PIN);
-
-        if (b1) { gpio_set(LED0_PIN); } else { gpio_clear(LED0_PIN); }
-        if (b2) { gpio_set(LED1_PIN); } else { gpio_clear(LED1_PIN); }
-        if (b3) { gpio_set(LED2_PIN); } else { gpio_clear(LED2_PIN); }
-        if (b4) { gpio_set(LED3_PIN); } else { gpio_clear(LED3_PIN); }
-        if (b5) { gpio_set(LED4_PIN); } else { gpio_clear(LED4_PIN); }
-        if (b6) { gpio_set(LED5_PIN); } else { gpio_clear(LED5_PIN); }
-        if (b7) { gpio_set(LED6_PIN); } else { gpio_clear(LED6_PIN); }
-
-        delay_ms(50);
-    }
-
-    led_only(-1);
-    puts("  done");
-
-    puts("[TEST 4] Clock frequency: LED0 blinks 30x at 1 Hz (measure 30 s)");
+    puts("[TEST 3] Clock frequency: LED0 blinks 30x at 1 Hz (measure 30 s)");
     printf("  CLOCK_CORECLOCK = %lu Hz\r\n", (unsigned long)coreclk());
     for (int i = 0; i < 30; i++) {
         gpio_set(LED0_PIN);
@@ -106,6 +125,11 @@ int main(void)
     }
     puts("  done — 30 blinks should take exactly 30 s");
 
-    puts("\r\n=== All tests complete ===");
+    puts("\r\n[INTERACTIVE] switches latch LEDs, buttons toggle-latch LEDs");
+    puts("  SW0->LD0  SW1->LD1  SW2->LD2   (held while switch is up)");
+    puts("  BTN1->LD5 BTN2->LD6 BTN3->LD7  (press to flip & hold)");
+    puts("  runs until board reset. (SW3 left free — it is the UART mux select)");
+    interactive_mode();
+
     return 0;
 }

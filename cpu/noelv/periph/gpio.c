@@ -16,6 +16,7 @@
 
 #include "periph/gpio.h"
 #include "periph_conf.h"
+#include "irq.h"
 #include "vendor/grgpio.h"
 
 /**
@@ -45,14 +46,20 @@ int gpio_init(gpio_t pin, gpio_mode_t mode)
     int p = _pin(pin);
 
     switch (mode) {
-    case GPIO_OUT:
+    case GPIO_OUT: {
+        unsigned state = irq_disable();
         dev->dir |= (1u << p);
+        irq_restore(state);
         break;
+    }
     case GPIO_IN:
     case GPIO_IN_PD: /* GRGPIO has no pull resistors — treated as plain input */
-    case GPIO_IN_PU:
+    case GPIO_IN_PU: {
+        unsigned state = irq_disable();
         dev->dir &= ~(1u << p);
+        irq_restore(state);
         break;
+    }
     default:
         return -1;
     }
@@ -66,15 +73,21 @@ bool gpio_read(gpio_t pin)
 
 void gpio_set(gpio_t pin)
 {
+    unsigned state = irq_disable();
     _dev(pin)->output |= (1u << _pin(pin));
+    irq_restore(state);
 }
 
 void gpio_clear(gpio_t pin)
 {
+    unsigned state = irq_disable();
     _dev(pin)->output &= ~(1u << _pin(pin));
+    irq_restore(state);
 }
 
 void gpio_toggle(gpio_t pin)
 {
+    unsigned state = irq_disable();
     _dev(pin)->output ^= (1u << _pin(pin));
+    irq_restore(state);
 }
