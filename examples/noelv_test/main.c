@@ -4,7 +4,8 @@
  */
 
 /**
- * @brief   NoeIV port test: GPIO (LEDs + buttons) and UART
+ * @file
+ * @brief   NOEL-V port test: GPIO (LEDs + buttons) and UART
  *
  * @author  Matvii Ivashchenko
  *

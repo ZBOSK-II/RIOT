@@ -3,14 +3,11 @@ APPLICATION = noelv_eth_bench
 BOARD ?= zedboard-noelv
 RIOTBASE ?= $(CURDIR)/../..
 
-DEVELHELP ?= 1
+DEVELHELP ?= 0
 QUIET     ?= 1
 
-# Print file:line instead of 0x0 when an assertion fails
-CFLAGS += -DDEBUG_ASSERT_VERBOSE
-
-# GRETH driver (Gaisler Ethernet MAC, PMOD-JD RMII PHY)
-USEMODULE += greth
+USEMODULE += netdev_default
+USEMODULE += auto_init_gnrc_netif
 
 # GNRC network stack
 USEMODULE += gnrc_netif

@@ -167,13 +167,13 @@ SECTIONS
 
   .lalign         :
   {
-    . = ALIGN(4);
+    . = ALIGN(8);
     PROVIDE( _data_lma = . );
   } >flash AT>flash :flash
 
   .dalign         :
   {
-    . = ALIGN(4);
+    . = ALIGN(8);
     PROVIDE( _data = . );
   } >ram AT>flash :ram_init
 
@@ -195,7 +195,7 @@ SECTIONS
     KEEP (*(SORT(.xfa.*)))
   } >ram AT>flash :ram_init
 
-  . = ALIGN(4);
+  . = ALIGN(8);
   PROVIDE( _edata = . );
   PROVIDE( edata = . );
 
@@ -208,7 +208,7 @@ SECTIONS
     *(.bss .bss.*)
     *(.gnu.linkonce.b.*)
     *(COMMON)
-    . = ALIGN(4);
+    . = ALIGN(8);
   } >ram AT>ram :ram
   PROVIDE( __bss_end = . );
 

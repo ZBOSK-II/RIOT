@@ -42,7 +42,7 @@ typedef struct {
  * @brief   UART interrupt priority
  */
 #define UART_ISR_PRIO       (1)
-
+#define PERIPH_TIMER_PROVIDES_SET   /**< timer_set() is provided by the driver */
 #ifdef __cplusplus
 }
 #endif

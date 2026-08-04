@@ -1,4 +1,3 @@
-DEVELHELP=0
 include ../Makefile.sys_common
 
 USEMODULE += app_metadata

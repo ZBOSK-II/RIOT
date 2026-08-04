@@ -13,8 +13,8 @@
  * Legacy-mode netdev driver (confirm_send = NULL): send() blocks until DMA
  * completes and returns the byte count directly.
  *
- * TX/RX descriptor tables and data buffers are file-scope statics so they can
- * carry their own alignment attribute without propagating it into greth_t
+ * TX/RX descriptor tables and data buffers are file-scope static so
+ * they can carry their own alignment attribute without propagating it into greth_t
  * (which would trigger -Wcast-align when casting netdev_t* → greth_t*).
  *
  * @author      Matvii Ivashchenko
@@ -376,6 +376,14 @@ static int _init(netdev_t *netdev)
     dev->tx_desc = _tx_desc;
     dev->rx_desc = _rx_desc;
     dev->tx_buf  = _tx_buf;
+
+    /* The GRETH descriptor and buffer pointers are programmed into 32-bit
+     * hardware registers. On a 64-bit host the DMA engine cannot reach memory
+     * above 4 GiB, so the descriptor tables and buffers must live in the low
+     * 4 GiB. Fail loudly if a future memory layout violates this. */
+    assert(((uintptr_t)dev->tx_desc >> 32) == 0);
+    assert(((uintptr_t)dev->rx_desc >> 32) == 0);
+    assert(((uintptr_t)dev->tx_buf  >> 32) == 0);
 
     uint32_t cap  = _mmio_read(&regs->ctrl);
     dev->gbit     = (cap & GRETH_CTRL_GBIT_CAP) != 0;
@@ -767,5 +775,5 @@ void greth_setup(greth_t *dev, const greth_params_t *params, uint8_t index)
     dev->phy_addr      = 0;
     dev->gbit          = false;
 
-    netdev_register(&dev->netdev, NETDEV_ANY, index);
+    netdev_register(&dev->netdev, NETDEV_GRETH, index);
 }

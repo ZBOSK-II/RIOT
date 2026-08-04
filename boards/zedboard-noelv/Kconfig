@@ -7,4 +7,4 @@ config BOARD
 config BOARD_ZEDBOARD_NOELV
     bool
     default y
-    select CPU_CORE_RV64IMAC
+    select CPU_MODEL_NOELV_RV64IMAC

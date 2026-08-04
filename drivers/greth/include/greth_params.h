@@ -32,18 +32,20 @@ extern "C" {
  * @{
  */
 #ifndef GRETH_PARAM_BASE
-#define GRETH_PARAM_BASE    (0xff984000UL)
+#define GRETH_PARAM_BASE    (0xff984000UL) /**< APB base address */
 #endif
 
 #ifndef GRETH_PARAM_IRQ
-#define GRETH_PARAM_IRQ     (5U)
+#define GRETH_PARAM_IRQ     (5U)           /**< PLIC interrupt line */
 #endif
 
 #ifndef GRETH_PARAM_MAC
+/** @brief Default MAC address */
 #define GRETH_PARAM_MAC     { 0x02, 0x00, 0x00, 0x00, 0x00, 0x01 }
 #endif
 
 #ifndef GRETH_PARAMS
+/** @brief Driver initialization parameter set */
 #define GRETH_PARAMS        { .base_addr = GRETH_PARAM_BASE, \
                               .irq       = GRETH_PARAM_IRQ,  \
                               .mac       = GRETH_PARAM_MAC }

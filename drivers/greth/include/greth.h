@@ -124,8 +124,8 @@ typedef struct {
 /**
  * @brief   Set up the GRETH device descriptor
  *
- * Must be called before @ref netdev_t::init. Wires the netdev driver pointer
- * and stores the board parameters. Does not touch hardware.
+ * Must be called before the netdev `init` callback. Wires the netdev driver
+ * pointer and stores the board parameters. Does not touch hardware.
  *
  * @param[out]  dev     Driver state to initialise
  * @param[in]   params  Board-level configuration (address, IRQ, MAC)

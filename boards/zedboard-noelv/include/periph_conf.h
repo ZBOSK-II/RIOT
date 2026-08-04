@@ -40,7 +40,7 @@ extern "C" {
  * grmon: gpio0  APB: ff983000 - ff983100
  * @{
  */
-#define GPIO0_BASE_ADDR     (0xff983000UL)
+#define GPIO0_BASE_ADDR     (0xff983000UL)  /**< GRGPIO base address */
 /** @} */
 
 /**
@@ -68,8 +68,8 @@ static const uart_conf_t uart_config[] = {
  * grmon: greth0  APB: ff984000 - ff984100  IRQ: 5
  * @{
  */
-#define GRETH_PARAM_BASE    (0xff984000UL)
-#define GRETH_PARAM_IRQ     (5U)
+#define GRETH_PARAM_BASE    (0xff984000UL)  /**< GRETH base address */
+#define GRETH_PARAM_IRQ     (5U)            /**< GRETH interrupt line */
 /** @} */
 
 

@@ -91,3 +91,15 @@ void gpio_toggle(gpio_t pin)
     _dev(pin)->output ^= (1u << _pin(pin));
     irq_restore(state);
 }
+
+void gpio_write(gpio_t pin, bool value)
+{
+    unsigned state = irq_disable();
+    if (value) {
+        _dev(pin)->output |= (1u << _pin(pin));
+    }
+    else {
+        _dev(pin)->output &= ~(1u << _pin(pin));
+    }
+    irq_restore(state);
+}

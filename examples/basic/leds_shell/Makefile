@@ -25,6 +25,4 @@ ifneq (,$(filter native native32 native64,$(BOARD)))
  USEMODULE += periph_gpio_mock
 endif
 
-CFLAGS += -DTHREAD_STACKSIZE_MAIN=8192
-
 include $(RIOTBASE)/Makefile.include

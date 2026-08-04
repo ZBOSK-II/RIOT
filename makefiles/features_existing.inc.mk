@@ -75,13 +75,13 @@ FEATURES_EXISTING := \
     cpu_gd32v \
     cpu_kinetis \
     cpu_lm4f120 \
-    cpu_noelv \
     cpu_lpc1768 \
     cpu_lpc23xx \
     cpu_msp430 \
     cpu_msp430_f2xx_g2xx \
     cpu_msp430_x1xx \
     cpu_native \
+    cpu_noelv \
     cpu_nrf51 \
     cpu_nrf52 \
     cpu_nrf53 \

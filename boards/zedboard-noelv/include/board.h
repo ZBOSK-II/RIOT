@@ -6,9 +6,7 @@
 #pragma once
 
 /**
- * @defgroup    boards_zedboard_noelv Gaisler NOEL-V ZedBoard
- * @ingroup     boards
- * @brief       Support for the Gaisler NOEL-V RISC-V on ZedBoard FPGA
+ * @ingroup     boards_zedboard_noelv
  * @{
  *
  * @file
@@ -27,11 +25,10 @@ extern "C" {
 /**
  * @name    System clock frequency
  *
- * CPU_FREQ = BOARD_FREQ(100MHz) * CFG_CLKMUL / CFG_CLKDIV.
  * @{
  */
-#define CLOCK_CORECLOCK     (40000000UL)    /* 40 MHz */
-#define CONFIG_ZTIMER_USEC_BASE_FREQ    (20000000UL)
+#define CLOCK_CORECLOCK     (40000000UL)    /**< 40 MHz */
+#define CONFIG_ZTIMER_USEC_BASE_FREQ (20000000UL) /**< ztimer base = mtime = CORECLOCK/2 */
 /** @} */
 
 /**
@@ -93,10 +90,10 @@ extern "C" {
  * SW3 → gpio_i[3] (also controls DSU/UART mux: 1=debug UART, 0=UART0).
  * @{
  */
-#define SW0_PIN             GPIO_PIN(0, 0)  /* SW0 → gpio_i[0] */
-#define SW1_PIN             GPIO_PIN(0, 1)  /* SW1 → gpio_i[1] */
-#define SW2_PIN             GPIO_PIN(0, 2)  /* SW2 → gpio_i[2] */
-#define SW3_PIN             GPIO_PIN(0, 3)  /* SW3 → gpio_i[3], DSU select */
+#define SW0_PIN             GPIO_PIN(0, 0)  /**< SW0 -> gpio_i[0] */
+#define SW1_PIN             GPIO_PIN(0, 1)  /**< SW1 -> gpio_i[1] */
+#define SW2_PIN             GPIO_PIN(0, 2)  /**< SW2 -> gpio_i[2] */
+#define SW3_PIN             GPIO_PIN(0, 3)  /**< SW3 -> gpio_i[3] (UART/DSU mux) */
 /** @} */
 
 #ifdef __cplusplus

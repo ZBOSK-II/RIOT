@@ -101,6 +101,7 @@ typedef struct {
 #define GRETH_TXBD_ERR_UE   (1u << 14)  /**< Underrun error */
 #define GRETH_TXBD_ERR_AL   (1u << 15)  /**< Attempt limit exceeded */
 #define GRETH_TXBD_ERR_LC   (1u << 16)  /**< Late collision */
+/** @brief All TX descriptor error bits combined */
 #define GRETH_TXBD_ERR_MASK (GRETH_TXBD_ERR_UE | GRETH_TXBD_ERR_AL | \
                               GRETH_TXBD_ERR_LC)
 /** @} */
@@ -114,6 +115,7 @@ typedef struct {
 #define GRETH_RXBD_ERR_CRC  (1u << 16)  /**< CRC error */
 #define GRETH_RXBD_ERR_OE   (1u << 17)  /**< FIFO overrun */
 #define GRETH_RXBD_ERR_LE   (1u << 18)  /**< Length mismatch */
+/** @brief All RX descriptor error bits combined */
 #define GRETH_RXBD_ERR_MASK (GRETH_RXBD_ERR_AE | GRETH_RXBD_ERR_FT | \
                               GRETH_RXBD_ERR_CRC | GRETH_RXBD_ERR_OE | \
                               GRETH_RXBD_ERR_LE)
@@ -134,6 +136,7 @@ typedef struct {
 #define GRETH_MII_CTRL_FD       (1u << 8)   /**< Full duplex (if no aneg) */
 #define GRETH_MII_STATUS_ANEG_DONE (1u << 5) /**< Auto-negotiation complete */
 #define GRETH_MII_STATUS_LINK   (1u << 2)   /**< Link status */
+/** @} */
 
 /**
  * @name    Auto-negotiation Advertisement / Link Partner Ability bits (regs 4/5)

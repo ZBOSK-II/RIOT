@@ -4,6 +4,7 @@
  */
 
 /**
+ * @file
  * @brief   UDP throughput benchmark for NOEL-V GRETH Ethernet
  *
  * RX benchmark (laptop → board):
@@ -26,18 +27,9 @@
 #include "shell.h"
 #include "thread.h"
 #include "ztimer.h"
-#include "net/gnrc/netif/ethernet.h"
 #include "net/gnrc/netif.h"
 #include "net/sock/udp.h"
 #include "net/ipv6/addr.h"
-
-#include "greth.h"
-#include "greth_params.h"
-
-
-static greth_t      _dev;
-static gnrc_netif_t _netif;
-static char         _greth_stack[THREAD_STACKSIZE_DEFAULT];
 
 
 #define BENCH_PORT       (8888U)
@@ -199,9 +191,6 @@ int main(void)
     msg_init_queue(_msg_queue, MAIN_MSG_QUEUE_SIZE);
     puts("=== NOEL-V GRETH UDP throughput benchmark ===");
 
-    greth_setup(&_dev, &greth_params[0], 0);
-    gnrc_netif_ethernet_create(&_netif, _greth_stack, THREAD_STACKSIZE_DEFAULT,
-                               GNRC_NETIF_PRIO, "greth0", &_dev.netdev);
 
     thread_create(_bench_rx_stack, sizeof(_bench_rx_stack),
                   THREAD_PRIORITY_MAIN - 1,

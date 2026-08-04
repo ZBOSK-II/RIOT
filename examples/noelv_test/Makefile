@@ -3,7 +3,7 @@ APPLICATION = noelv_test
 BOARD ?= zedboard-noelv
 RIOTBASE ?= $(CURDIR)/../..
 
-DEVELHELP ?= 1
+DEVELHELP ?= 0
 QUIET ?= 1
 
 USEMODULE += ztimer_msec

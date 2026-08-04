@@ -19,6 +19,7 @@ Here is a quick overview of the examples available in the RIOT:
 | [ipc_pingpong](./basic/ipc_pingpong/README.md) | This example is to illustrate the usage of RIOTs IPC messaging system. |
 | [filesystem](./basic/filesystem/README.md) | This example showcases ways to interact/manage the filesystem in RIOT. |
 | [subfolders](./basic/subfolders/README.md) | This example demonstrates how to use subfolders in RIOT applications. |
+| [noelv_test](./noelv_test/README.md) | Hardware bring-up test (GPIO, LEDs, buttons/switches, UART) for the NOEL-V ZedBoard. |
 
 ## RIOT Language Bindings
 
@@ -103,6 +104,7 @@ Here is a quick overview of the examples available in the RIOT:
 | [gnrc_networking_subnets](./networking/gnrc/networking_subnets/README.md) | This example demonstrates IPv6 subnet auto-configuration for networks on a tree topology. |
 | [gnrc_border_router](./networking/gnrc/border_router/README.md) | Example of `gnrc_border_router` using automatic configuration |
 | [gnrc_lorawan](./networking/gnrc/lorawan/README.md) | Send and receive LoRaWAN packets and perform basic LoRaWAN commands |
+| [noelv_eth_bench](./noelv_eth_bench/README.md) | UDP throughput benchmark for the GRETH Ethernet MAC on the NOEL-V ZedBoard. |
 
 ### DTLS
 

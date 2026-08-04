@@ -25,25 +25,25 @@ extern "C" {
 
 /**
  * @brief   Base address of the RISC-V ACLINT (CLINT)
- *          
+ *
  */
 #define CLINT_BASE_ADDR         (0xe0000000UL)
 
 /**
  * @brief   Base address of the PLIC
- *         
+ *
  */
 #define PLIC_CTRL_ADDR          (0xf8000000UL)
 
 /**
  * @brief   Number of interrupt sources in the PLIC
- *          
+ *
  */
 #define PLIC_NUM_INTERRUPTS     (31U)
 
 /**
  * @brief   Number of priority levels in the PLIC
- *         
+ *
  */
 #define PLIC_NUM_PRIORITIES     (7U)
 
