@@ -1,0 +1,12 @@
+CPU = noelv
+CPU_MODEL = noelv_rv64imac
+CPU_CORE  = rv64imac
+
+# Put defined MCU peripherals here (in alphabetical order)
+FEATURES_PROVIDED += periph_uart
+FEATURES_PROVIDED += periph_timer
+
+# Network
+FEATURES_PROVIDED += netif
+FEATURES_PROVIDED += periph_eth
+

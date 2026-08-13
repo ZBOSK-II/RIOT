@@ -1,0 +1,22 @@
+# Select a C library
+FEATURES_REQUIRED_ANY += newlib|picolibc
+ifneq (,$(filter newlib,$(USEMODULE)))
+  DEFAULT_MODULE += newlib_nano
+  USEMODULE += newlib_syscalls_default
+endif
+
+# noelv provides its own implementations of all riscv_common files,
+# so riscv_common is NOT added to USEMODULE to avoid duplicate symbols.
+
+# include common periph code (provided by cpu/noelv/periph/ as MODULE=riscv_common_periph)
+USEMODULE += riscv_common_periph
+
+# PLIC is always required (used by UART and other peripherals)
+FEATURES_REQUIRED += periph_plic
+
+ifneq (,$(filter periph_timer,$(USEMODULE)))
+  FEATURES_REQUIRED += periph_coretimer
+endif
+
+# Make calls to malloc and friends thread-safe
+USEMODULE += malloc_thread_safe

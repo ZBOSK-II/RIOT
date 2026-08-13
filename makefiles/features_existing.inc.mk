@@ -75,6 +75,7 @@ FEATURES_EXISTING := \
     cpu_gd32v \
     cpu_kinetis \
     cpu_lm4f120 \
+    cpu_noelv \
     cpu_lpc1768 \
     cpu_lpc23xx \
     cpu_msp430 \
