@@ -1,0 +1,13 @@
+# ML-DSA-44 is the only parameter set wired up so far
+ifeq (,$(filter pqclean_mldsa%,$(USEMODULE)))
+  USEMODULE += pqclean_mldsa44
+endif
+
+# Keccak/SHAKE shared by all PQClean schemes
+USEMODULE += pqclean_fips202
+
+# key generation and signing call randombytes(), served by RIOT's PRNG
+USEMODULE += pqclean_randombytes
+USEMODULE += random
+
+FEATURES_REQUIRED_ANY += arch_32bit|arch_64bit

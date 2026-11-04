@@ -1,0 +1,9 @@
+# the package itself builds no objects, the scheme modules do
+PSEUDOMODULES += pqclean
+
+# Scheme headers are included by their PQClean path, e.g.
+# "ml-dsa-44/clean/api.h". -isystem keeps RIOT's warning set off them.
+INCLUDES += -isystem$(PKGDIRBASE)/pqclean/crypto_sign
+INCLUDES += -I$(RIOTPKG)/pqclean/include
+
+DIRS += $(RIOTPKG)/pqclean/contrib
