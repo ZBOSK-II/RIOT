@@ -139,6 +139,7 @@ Here is a quick overview of the examples available in the RIOT:
 | [sock_tcp_echo](./networking/misc/sock_tcp_echo/README.md) | This is a simple TCP echo server / client that uses the SOCK API. |
 | [lwip_ipv4](./networking/misc/lwip_ipv4/README.md) | This is a simple UDP client / server using lwIP for IPv4. |
 | [lwiperf](./networking/misc/lwiperf/README.md) | This is a lwIP benchmark application, providing an iPerf client and server. |
+| [mldsa_verify_server](./networking/misc/mldsa_verify_server/README.md) | TCP/IPv6 server that verifies ML-DSA-44 (FIPS 204) signatures with PQClean, shows the result on LEDs and measures the verification time. Comes with a host-side signing tool and client. |
 
 
 ## Advanced Examples
