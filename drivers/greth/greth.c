@@ -228,6 +228,13 @@ static void _phy_reset_and_aneg(greth_t *dev)
         }
     }
 
+    if (IS_ACTIVE(CONFIG_GRETH_ADVERTISE_10M_ONLY)) {
+        _mdio_write_reg(regs, dev->phy_addr, GRETH_MII_ADV,
+                        GRETH_MII_ADV_SEL_802_3 | GRETH_MII_ADV_10_FD | GRETH_MII_ADV_10_HD);
+        _mdio_write_reg(regs, dev->phy_addr, GRETH_MII_CTRL,
+                        GRETH_MII_CTRL_ANEG | GRETH_MII_CTRL_ANEG_RST);
+    }
+
     int ctrl = _mdio_read(regs, dev->phy_addr, GRETH_MII_CTRL);
     if (ctrl < 0 || !(ctrl & GRETH_MII_CTRL_ANEG)) {
         return;

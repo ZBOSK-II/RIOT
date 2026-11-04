@@ -65,6 +65,17 @@ extern "C" {
 #endif
 
 /**
+ * @brief   Advertise only 10BASE-T during auto-negotiation
+ *
+ * On designs whose bus cannot drain the RX FIFO at 100 Mbit/s (frames are
+ * dropped with the OE bit set in the descriptor), running the link at
+ * 10 Mbit/s avoids the overruns.
+ */
+#ifndef CONFIG_GRETH_ADVERTISE_10M_ONLY
+#define CONFIG_GRETH_ADVERTISE_10M_ONLY   0
+#endif
+
+/**
  * @brief   Maximum Ethernet frame size (excluding FCS added by MAC)
  */
 #define GRETH_MAX_FRAME_LEN         (1518U)

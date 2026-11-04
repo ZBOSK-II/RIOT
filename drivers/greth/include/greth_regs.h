@@ -132,6 +132,7 @@ typedef struct {
 
 #define GRETH_MII_CTRL_RST      (1u << 15)  /**< Software reset */
 #define GRETH_MII_CTRL_ANEG     (1u << 12)  /**< Auto-negotiation enable */
+#define GRETH_MII_CTRL_ANEG_RST (1u << 9)   /**< Restart auto-negotiation */
 #define GRETH_MII_CTRL_SPD100   (1u << 13)  /**< 100 Mbps (if no aneg) */
 #define GRETH_MII_CTRL_FD       (1u << 8)   /**< Full duplex (if no aneg) */
 #define GRETH_MII_STATUS_ANEG_DONE (1u << 5) /**< Auto-negotiation complete */
@@ -146,6 +147,15 @@ typedef struct {
  * together to find the highest common link mode.
  * @{
  */
+/**
+ * @name    Auto-Negotiation Advertisement register bits (same layout as LPA)
+ * @{
+ */
+#define GRETH_MII_ADV_SEL_802_3 (1u << 0)   /**< Selector field: IEEE 802.3 */
+#define GRETH_MII_ADV_10_HD     (1u << 5)   /**< Advertise 10BASE-T Half Duplex */
+#define GRETH_MII_ADV_10_FD     (1u << 6)   /**< Advertise 10BASE-T Full Duplex */
+/** @} */
+
 #define GRETH_MII_LPA_10_HD     (1u << 5)   /**< 10BASE-T Half Duplex */
 #define GRETH_MII_LPA_10_FD     (1u << 6)   /**< 10BASE-T Full Duplex */
 #define GRETH_MII_LPA_100_HD    (1u << 7)   /**< 100BASE-TX Half Duplex */
